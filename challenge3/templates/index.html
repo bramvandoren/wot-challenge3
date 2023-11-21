@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    <title>Code Controle</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('serve_static', filename='styles.css') }}">
+</head>
+<body>
+    {% if start_display %}
+    <div class="container" id="start_display">
+        <p class="title">Te Estoy Observando</p>
+        <p class="subtitle">El PIN:</p>
+        <form method="POST">
+            <div class="form">
+                <input type="text" id="codeInput" name="code" placeholder="* * * *">
+                <button class="btn_pin" name="button_value" id="buttonValue" type="submit">Comprobar PIN</button>
+            </div>
+        </form>
+        <div class="numeric-keyboard">
+            <button onclick="appendNumber(1)">1</button>
+            <button onclick="appendNumber(2)">2</button>
+            <button onclick="appendNumber(3)">3</button>
+            <br>
+            <button onclick="appendNumber(4)">4</button>
+            <button onclick="appendNumber(5)">5</button>
+            <button onclick="appendNumber(6)">6</button>
+            <br>
+            <button onclick="appendNumber(7)">7</button>
+            <button onclick="appendNumber(8)">8</button>
+            <button onclick="appendNumber(9)">9</button>
+            <br>
+            <button onclick="appendNumber(0)">0</button>
+            <button onclick="clearCode()">C</button>
+        </div>
+    </div>
+    {% endif %}
+    <div id="result">
+        {% if result %}
+        <p>{{ result }}</p>
+        {% endif %}
+    </div>
+</body>
+<script>
+    function appendNumber(number) {
+        var codeInput = document.getElementById('codeInput');
+        codeInput.value += number;
+    }
+
+    function clearCode() {
+        var codeInput = document.getElementById('codeInput');
+        codeInput.value = '';
+    }
+</script>
+</html>

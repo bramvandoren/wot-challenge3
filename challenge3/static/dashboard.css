@@ -1,0 +1,61 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  max-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #000000;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.camera-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  justify-content: center;
+  /* width: 100%; */
+  height: 100vh;
+  
+}
+
+.camera {
+  flex: 1 1 100%;
+  border: 10px solid #2e2e2e;
+  text-align: center;
+  background-color: #000000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.camera img {
+  width: 320px;
+  height: 240px;
+}
+
+.camera p {
+  margin-top: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: red;
+  font-family: 'Cinzel Decorative', serif;
+}
+
+@keyframes pulse {
+  0%, 100% {
+      border-color: #2e2e2e; /* Standaard kleur van de rand */
+  }
+  50% {
+      border-color: #ff0000; /* Roze kleur tijdens knipperen */
+  }
+}
+
+.camera-blink {
+  animation: pulse 1s infinite; /* Animatie met een duur van 0.5 seconden en herhaling voor altijd */
+}
+

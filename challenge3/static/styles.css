@@ -1,0 +1,77 @@
+body, html {
+    color: white;
+    background-image: url('../static/hack_code.jpg');
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.container {
+    /* background-color: lightgray; */
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+input {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 2rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: lightgray;
+    border-radius: 4px;
+}
+
+input::placeholder {
+    font-size: 30px;
+}
+
+.btn_pin {
+    font-size: 20px;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: lightgreen;
+    color: darkgreen;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+/* Numeric Pad */
+
+.numeric-keyboard button {
+    background-color: white;
+    border: none;
+    padding: 15px 20px;
+    margin: 5px;
+    font-size: 24px;
+}
+
+.numeric-keyboard button:active {
+    background-color: gray;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Camera Stream</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+</head>
+<body>
+    <img id="video-stream" alt="Camera Stream">
+    <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('image', function (data) {
+            document.getElementById('video-stream').src = 'data:image/jpeg;base64,' + data;
+        });
+    </script>
+</body>
+</html>

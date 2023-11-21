@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <title>Camera Dashboard</title>
+</head>
+
+<body>
+    <!-- Voeg deze HTML toe aan je body-sectie -->
+
+<div class="container">
+    <p style="color: azure;">Camera Status: {{ camera_status }}</p>
+    <div class="camera-container">
+      <div class="camera camera-blink-1">
+        <!-- <img id="stream1" src="http://192.168.0.121:81/stream" crossorigin="" onerror="handleError(this)"> -->
+        <!-- <img id="stream" src="http://192.168.50.254:81/stream" crossorigin=""> -->
+        <img id="stream" src="http://192.168.50.254:81/stream" crossorigin="">
+<!-- 
+        <img id="stream" src="http://192.168.1.28:81/stream" crossorigin=""> -->
+        <p>El CAMERA 1</p>
+    </div>
+    <div class="camera camera-blink-2">
+        <!-- <img id="stream2" src="http://192.168.0.121:81/stream" crossorigin="" onerror="handleError(this)"> -->
+        <!-- <img id="stream" src="http://192.168.50.254:81/stream" crossorigin=""> -->
+        <img id="stream" src="http://192.168.50.44:81/stream" crossorigin="">
+        <!-- <img id="stream" src="http://192.168.1.28:81/stream" crossorigin=""> -->
+        <p>EL CAMERA 2</p>
+    </div>
+    <div class="camera camera-blink-3">
+        <!-- <img id="stream3" src="http://192.168.0.121:81/stream" crossorigin="" onerror="handleError(this)"> -->
+        <!-- <img id="stream" src="http://192.168.50.254:81/stream" crossorigin=""> -->
+        <!-- <img id="stream" src="http://192.168.1.28:81/stream" crossorigin=""> -->
+        <img id="stream" src="http://192.168.50.44:81/stream" crossorigin="">
+
+        <p>EL CAMERA 3</p>
+    </div>
+    <div class="camera camera-blink-4">
+        <!-- <img id="stream4" src="http://192.168.0.121:81/stream" crossorigin="" onerror="handleError(this)"> -->
+        <!-- <img id="stream" src="http://192.168.50.254:81/stream" crossorigin="" > -->
+        <!-- <img id="stream" src="http://192.168.1.28:81/stream" crossorigin=""> -->
+        <img id="stream" src="http://192.168.50.44:81/stream" crossorigin="">
+
+        <p>EL CAMERA 4</p>
+    </div>
+    <!-- Update the stream URLs -->
+<!-- <img id="stream1" src="http://<your_esp_ip>/stream" crossorigin="" onerror="handleError(this)">
+  <img id="stream2" src="http://<your_esp_ip>/stream" crossorigin="" onerror="handleError(this)">
+  <img id="stream3" src="http://<your_esp_ip>/stream" crossorigin="" onerror="handleError(this)">
+  <img id="stream4" src="http://<your_esp_ip>/stream" crossorigin="" onerror="handleError(this)"> -->
+  
+</div>
+  <script>
+  const cameras = document.querySelectorAll(".camera");
+  let blinkInterval;
+  const reloadTimeout = 5000; // Set the timeout for reloading the page (in milliseconds)
+
+  // Instellingen voor elke camera: [aantal keer knipperen, duur van het knipperen in milliseconden]
+  const cameraSettings = [
+    [6, 1000], // Camera 1: 4 keer knipperen met een duur van 1000 ms per keer
+    [4, 1000], // Camera 2: 6 keer knipperen met een duur van 1000 ms per keer
+    [8, 1000], // Camera 3: 2 keer knipperen met een duur van 1000 ms per keer
+    [10, 1000], // Camera 4: 5 keer knipperen met een duur van 1000 ms per keer
+  ];
+
+  function toggleBlinking(camera, times, duration) {
+    let count = 0;
+    const interval = setInterval(() => {
+      camera.classList.toggle("camera-blink");
+      count++;
+      if (count >= times) {
+        clearInterval(interval);
+      }
+    }, duration);
+    return interval;
+  }
+
+  function startBlinking() {
+    let currentCameraIndex = 0;
+
+    function blinkCamera() {
+      const [times, duration] = cameraSettings[currentCameraIndex];
+      blinkInterval = toggleBlinking(cameras[currentCameraIndex], times, duration);
+      setTimeout(() => {
+        cameras[currentCameraIndex].classList.remove("camera-blink"); // Stop het knipperen na de opgegeven duur
+        currentCameraIndex = (currentCameraIndex + 1) % cameras.length; // Ga naar de volgende camera
+        blinkCamera(); // Start het knipperen van de volgende camera
+      }, times * duration); // Wacht tot de knipperende routine is voltooid voordat je doorgaat naar de volgende camera
+    }
+
+    blinkCamera(); // Start het knipperen van de eerste camera
+  }
+
+  function handleImageLoad(img) {
+    img.onload = function () {
+      // Image loaded successfully
+      // Reset the timer for checking image health
+      clearInterval(img.checkInterval);
+      img.checkInterval = setInterval(() => {
+        if (!img.complete || img.naturalWidth === 0) {
+          // Image is not loaded correctly, trigger the error handling logic
+          handleError(img);
+        }
+      }, reloadTimeout);
+    };
+  }
+
+  function handleError(img) {
+    location.reload();
+    img.src = "{{ url_for('static', filename='placeholder_image.jpg') }}"; // Replace with your placeholder image
+    img.alt = "Camera stream not available";
+    const cameraId = img.id.slice(-1); // Extract the camera number from the ID
+    setTimeout(() => {
+      img.src = `http://192.168.0.121:81/stream/camera${cameraId}`;
+    }, 1000); // Retry after 1 second (adjust as needed)
+    clearInterval(blinkInterval); // Clear the previous blinking interval
+    startBlinking(); // Restart blinking after handling the error
+  }
+
+  cameras.forEach((camera) => {
+    const img = camera.querySelector("img");
+    handleImageLoad(img);
+  });
+
+  startBlinking();
+</script>
+
+
+</body>
+
+</html>

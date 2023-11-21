@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Test</title>
+</head>
+<body>
+  <h1>WebSocket Test</h1>
+  <script>
+    const socket = new WebSocket('ws://192.168.50.97:80/cam');
+
+    socket.addEventListener('open', (event) => {
+      console.log('WebSocket connection opened:', event);
+    });
+
+    socket.addEventListener('message', (event) => {
+      console.log('WebSocket message received:', event);
+    });
+
+    socket.addEventListener('close', (event) => {
+      console.log('WebSocket connection closed:', event);
+    });
+  </script>
+</body>
+</html>
